@@ -3,4 +3,5 @@ wikien1000
 gfx/*
 slurm-*
 *.swp
+*.out
 test.txt

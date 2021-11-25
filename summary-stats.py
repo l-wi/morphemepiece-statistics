@@ -1,4 +1,5 @@
 import os
+import itertools
 from collections import Counter
 import matplotlib.pyplot as plt
 from multiprocessing import Pool
@@ -103,16 +104,22 @@ def print_doc_stats(data):
 
     data = sorted(data, key=lambda x: x[0])
 
-    assert len(data) % 2 == 0
+    data_group_it = itertools.groupby(data, key=lambda x: x[0])
 
     overlaps = []
     bert_vocab_sizes = []
     morph_vocab_sizes = []
 
+    for _, g in data_group_it:
+        entries = list(g)
+        
+        #TODO fix this broken groups when exporting wikipedia data
+        if len(entries) != 2:
+            print("skipping broken group %s" % (entries[0][0]))
+            continue
 
-    for i in range(0,len(data),2):
-        entry1 = data[i]
-        entry2 = data[i+1]
+        entry1 = entries[0]
+        entry2 = entries[1]
 
         assert entry1[0] == entry2[0]
 
@@ -144,13 +151,13 @@ def print_doc_stats(data):
 
 
 def plot_token_histograms(bert, morph):
-    plot_token_histogram(bert.most_common(500), "bert_token_top500_hist.svg")
-    plot_token_histogram(morph.most_common(500), "morph_token_top500_hist.svg")
+    plot_token_histogram([x[1] for x in bert.most_common(500)], "bert_token_top500_hist.svg")
+    plot_token_histogram([x[1] for x in morph.most_common(500)], "morph_token_top500_hist.svg")
 
 
 def plot_token_histogram(vals, fname):
     indexes = np.arange(len(vals))
-    plt.bar(indexes, [v[1] for v in vals])
+    plt.bar(indexes,vals)
     plt.title(fname)
     plt.tight_layout()
     plt.savefig("gfx/%s" % fname)
@@ -190,6 +197,24 @@ def print_interesting_vocab_inclusions(bert,morph):
         print("%s in BERT:\t%s" % (tok, tok in k_bert))
 
 
+def plot_relative_coverage(bert,morph, n):
+    total_bert = sum(bert.values())
+    total_morph = sum(morph.values())
+
+    
+    bert_most_common_vals = [x[1] for x in bert.most_common(n)]
+    morph_most_common_vals = [x[1] for x in morph.most_common(n)]
+
+    bert_partialsum = np.array(list(itertools.accumulate(bert_most_common_vals)))
+    morph_partialsum = np.array(list(itertools.accumulate(morph_most_common_vals)))
+
+    bert_relative = bert_partialsum / total_bert
+    morph_relative = morph_partialsum / total_morph
+
+    
+    plot_token_histogram(bert_relative, "bert_relative_coverage_most_%d" % n)
+    plot_token_histogram(morph_relative, "morph_relative_coverage_most_%d" % n)
+
 def main():
 
     most_common = 20
@@ -217,9 +242,12 @@ def main():
         
         print_top_n_distinct_tokens(bert_summary, morph_summary, most_common)
 
+        print_interesting_vocab_inclusions(bert_summary,morph_summary)
+
         plot_token_histograms(bert_summary, morph_summary)
 
-        print_interesting_vocab_inclusions(bert_summary,morph_summary)
+        plot_relative_coverage(bert_summary,morph_summary, 2500)
+
 
 
 if __name__ == '__main__':
