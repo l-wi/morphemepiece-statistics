@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from multiprocessing import Pool
 import numpy as np
 
-INPUT_PATH = "wikien1000"
+INPUT_PATH = "wikien"
 
 def count_file(inp_file):
     inp_file = INPUT_PATH + "/" + inp_file    
