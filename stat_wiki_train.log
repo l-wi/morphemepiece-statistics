@@ -1,0 +1,55 @@
+vocab size BERT:	28893
+vocab size MORPH:	29209
+Overlap in vocab: 0.254
+skipping broken group wikien/42393d38cb504be4b847171bcad4673d
+Mean document overlap in tokens:	M=0.722 SD=0.084
+Mean BERT document vocab size:		M=232.718 SD=287.861
+Mean MOPRH document vocab size:		M=224.814 SD=248.450
+### TOP N tokens ###
+BERT				Value		MORPH				Value
+the     				2964203		##s     				3426454		
+,       				2767602		the     				2967064		
+.       				2337287		,       				2767750		
+of      				1531571		.       				2337433		
+in      				1299138		##      				2008669		
+and     				1235051		##ed    				1851740		
+a       				885367		of      				1532141		
+to      				832892		in      				1298462		
+:       				701074		and     				1234396		
+-       				685916		[UNK]   				1045161		
+)       				632814		##ing   				989440		
+(       				631638		a       				879921		
+"       				521619		to      				835569		
+was     				485255		:       				701084		
+category				466924		-       				685942		
+is      				386960		)       				632831		
+'       				382543		(       				631655		
+for     				362269		##er    				601605		
+as      				360412		"       				521635		
+on      				356164		was     				486313		
+### Top 20 distinct tokens ###
+BERT				Value		MORPH				Value
+references   				83827		##           				2008669		
+united       				50448		re##         				80093		
+national     				46648		un##         				54391		
+links        				44638		inter##      				39476		
+states       				42865		politic      				30854		
+years        				42021		in##         				30654		
+players      				40975		tele##       				24524		
+later        				38650		s##          				21407		
+used         				34470		e##          				20885		
+known        				33899		dis##        				20548		
+football     				29755		en##         				20117		
+including    				29558		a##          				19949		
+being        				29543		specie       				16622		
+##es         				29291		##self       				16273		
+##us         				27936		ka##         				14529		
+international				27514		sub##        				13205		
+living       				27399		ad##         				12035		
+films        				27363		over##       				11680		
+games        				25301		out##        				11588		
+based        				24911		be##         				11271		
+testing some intersting vocab incusions
+##ed in BERT:	True
+##ing in BERT:	True
+##s in BERT:	True
